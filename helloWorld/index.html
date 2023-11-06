@@ -7,7 +7,19 @@
     <title>hello-world WC</title>
   </head>
   <body>
+    <!-- 1 -->
+    <!-- <hello-world></hello-world>
+      <hello-world a="56" b="hola"></hello-world> -->
+
     <!-- 2 -->
+    <lazy-img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/739px-Firefox_logo%2C_2019.svg.png"
+    ></lazy-img>
+
+    <lazy-img
+      src="https://pbs.twimg.com/profile_images/1360169463455379459/v7xAQtTB.jpg"
+    ></lazy-img>
+
     <template>
       <h1>Hola Keepcoding!</h1>
       <img
@@ -15,12 +27,6 @@
         alt="example-alt"
       />
     </template>
-
-    <!-- 1 -->
-    <!-- <hello-world></hello-world>
-    <hello-world a="56" b="hola"></hello-world> -->
-
-    <lazy-img></lazy-img>
 
     <script>
       class HelloWorld extends HTMLElement {
@@ -50,16 +56,20 @@
       class LazyImage extends HTMLElement {
         constructor() {
           super();
+          this.src = this.getAttribute('src');
         }
 
         connectedCallback() {
           const template = document.querySelector('template');
           const templateContent = template.content.cloneNode(true);
           const img = templateContent.querySelector('img');
-          img.src =
-            'https://pbs.twimg.com/profile_images/1360169463455379459/v7xAQtTB.jpg';
+          img.src = this.src;
 
           this.appendChild(templateContent);
+        }
+
+        static get observedAttributes() {
+          return ['src'];
         }
       }
       window.customElements.define('hello-world', HelloWorld);
